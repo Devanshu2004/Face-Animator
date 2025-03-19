@@ -9,7 +9,7 @@ imageio
 tqdm
 g2p-en
 pronouncing
-whisper
+openai-whisper
 ffmpeg-python
 g2p
 cffi

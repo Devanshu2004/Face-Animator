@@ -94,7 +94,7 @@ def prepare_phoneme_input(phonemes, phoneme_to_idx):
 def predict_landmarks_from_text_input():
     
     # Load the saved model
-    model_path = "phoneme_to_landmark_simple.h5"  # or sequence model
+    model_path = "temporary_usage_files/phoneme_to_landmark_simple.h5"  # or sequence model
     if not os.path.exists(model_path):
         print(f"Error: Model file '{model_path}' not found.")
         return
@@ -103,7 +103,7 @@ def predict_landmarks_from_text_input():
     print("Model loaded successfully.")
     
     # Load the phoneme mapping
-    phoneme_mapping_path = "phoneme_mapping.txt"
+    phoneme_mapping_path = "temporary_usage_files/phoneme_mapping.txt"
     if not os.path.exists(phoneme_mapping_path):
         print(f"Error: Phoneme mapping file '{phoneme_mapping_path}' not found.")
         return

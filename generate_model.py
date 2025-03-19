@@ -743,11 +743,11 @@ def main(csv_path, video_path):
         plt.close()
     
     # Save models
-    simple_model.save("phoneme_to_landmark_simple.h5")
-    # seq_model.save("phoneme_to_landmark_sequence.h5")
+    simple_model.save("temporary_usage_files/phoneme_to_landmark_simple.h5")
+    # seq_model.save("temporary_usage_files/phoneme_to_landmark_sequence.h5")
     
     # Save the phoneme mapping for inference
-    with open("phoneme_mapping.txt", "w") as f:
+    with open("temporary_usage_files/phoneme_mapping.txt", "w") as f:
         for phoneme, idx in phoneme_to_idx.items():
             f.write(f"{phoneme},{idx}\n")
     
@@ -793,7 +793,7 @@ def text_to_phonemes(text, phoneme_dict):
 # Example usage
 if __name__ == "__main__":
     # Replace with your actual file paths
-    csv_path = "aligned_output.csv"
+    csv_path = "temporary_usage_files/aligned_output.csv"
     video_path = "input_video.mp4"
     
     main(csv_path, video_path)

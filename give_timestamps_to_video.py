@@ -91,6 +91,6 @@ def main(video_path, output_csv_path):
 # Run the script
 if __name__ == "__main__":
     video_path = "input_video.mp4"  # Replace with your video file path
-    output_csv_path = "aligned_output.csv" # Output CSV file path
+    output_csv_path = "temporary_usage_files/aligned_output.csv" # Output CSV file path
 
     main(video_path, output_csv_path)

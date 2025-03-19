@@ -25,3 +25,6 @@ db.sqlite3
 *.jpg
 *.jpeg
 *.mov
+
+# Specific files are saved in the "temporary_usage_files" folder, need to ignore those
+temporary_usage_files/
