@@ -18,3 +18,9 @@ db.sqlite3
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
+
+# Input files
+*.mp4
+*.png
+*.jpg
+*.jpeg
