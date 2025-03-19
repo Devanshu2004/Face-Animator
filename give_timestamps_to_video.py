@@ -90,6 +90,25 @@ def main(video_path, output_csv_path):
 
 # Run the script
 if __name__ == "__main__":
+    folder_name = "temporary_usage_files"
+
+    # Check if folder exists
+    if os.path.exists(folder_name) and os.path.isdir(folder_name):
+        # Delete all files inside the folder
+        for file in os.listdir(folder_name):
+            file_path = os.path.join(folder_name, file)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+            elif os.path.isdir(file_path):
+                os.rmdir(file_path)  # Removes empty directories only
+
+        # Remove the folder after clearing contents
+        os.rmdir(folder_name)
+        print(f"Deleted existing '{folder_name}' folder.")
+
+    # Create a new folder
+    os.mkdir(folder_name)
+    
     video_path = "input_video.mp4"  # Replace with your video file path
     output_csv_path = "temporary_usage_files/aligned_output.csv" # Output CSV file path
 
