@@ -118,7 +118,7 @@ def predict_landmarks_from_text_input():
     print(f"Loaded {len(phoneme_to_idx)} phonemes from mapping file.")
     
     # Get user input
-    text = "Hi, I am your current AI assistant, and I am willing to help you with your extremely auspicious project. Let me know, if you need my help."
+    text = "Hmmmmmmmm. Hi, I am your current AI assistant, and I am willing to help you with your extremely auspicious project. Let me know, if you need my help."
     
     # Convert to phonemes using g2p
     phonemes = text_to_phonemes_g2p(text)
