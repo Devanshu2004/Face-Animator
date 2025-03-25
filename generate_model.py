@@ -249,69 +249,7 @@ def prepare_sequence_data(X, y, phoneme_to_idx, seq_length=5):
     return X_seq, y_seq
 
 # Step 8: Visualization functions
-# def visualize_landmarks(landmarks, image_shape=(480, 640)):
-#     """Visualize facial landmarks on a blank image with consistent scaling and centering."""
-#     # Create a blank image
-#     image = np.zeros((image_shape[0], image_shape[1], 3), dtype=np.uint8)
-    
-#     # Reshape landmarks to (num_landmarks, 3)
-#     landmarks_reshaped = landmarks.reshape(-1, 3)
-    
-#     # Skip if no valid landmarks
-#     if np.all(landmarks_reshaped == 0):
-#         return image
-    
-#     # Filter out zero coordinates (which might indicate missing landmarks)
-#     valid_points = landmarks_reshaped[~np.all(landmarks_reshaped == 0, axis=1)]
-    
-#     if len(valid_points) == 0:
-#         return image
-        
-#     # Calculate the bounding box of valid landmarks
-#     min_x, min_y = np.min(valid_points[:, :2], axis=0)
-#     max_x, max_y = np.max(valid_points[:, :2], axis=0)
-    
-#     # Calculate current width and height of the landmarks
-#     width = max_x - min_x
-#     height = max_y - min_y
-    
-#     # Set target size to occupy 70% of the image
-#     target_width = 0.7 * image_shape[1]
-#     target_height = 0.7 * image_shape[0]
-    
-#     # Determine the scaling factor
-#     scale_x = target_width / width if width > 0 else 1
-#     scale_y = target_height / height if height > 0 else 1
-#     scale = min(scale_x, scale_y)  # Use the smaller scale to maintain aspect ratio
-    
-#     # Calculate the center of the landmarks
-#     center_x = (min_x + max_x) / 2
-#     center_y = (min_y + max_y) / 2
-    
-#     # Calculate the target center (center of image)
-#     target_center_x = image_shape[1] / 2
-#     target_center_y = image_shape[0] / 2
-    
-#     # Plot each landmark
-#     for i, (x, y, z) in enumerate(landmarks_reshaped):
-#         if x == 0 and y == 0 and z == 0:
-#             continue  # Skip zero landmarks
-            
-#         # Scale the point relative to the landmark center
-#         scaled_x = ((x - center_x) * scale) + target_center_x
-#         scaled_y = ((y - center_y) * scale) + target_center_y
-        
-#         # Convert to integer coordinates for drawing
-#         image_x = int(scaled_x)
-#         image_y = int(scaled_y)
-        
-#         # Make sure the point is within image boundaries
-#         if 0 <= image_x < image_shape[1] and 0 <= image_y < image_shape[0]:
-#             # Draw the landmark point
-#             cv2.circle(image, (image_x, image_y), 1, (0, 255, 0), -1)
-    
-#     return image
-def visualize_landmarks(landmarks, image_shape=(480, 640)):
+def visualize_landmarks(landmarks, image_shape=(427, 640)):
     """Visualize facial landmarks on a blank image with consistent scaling and centering."""
     # Create a blank image
     image = np.zeros((image_shape[0], image_shape[1], 3), dtype=np.uint8)
@@ -383,6 +321,130 @@ def visualize_landmarks(landmarks, image_shape=(480, 640)):
             cv2.circle(image, (image_x, image_y), 1, (0, 255, 0), -1)
     
     return image
+
+# def visualize_landmarks(landmarks, image_shape=(480, 640)):
+#     """
+#     Visualize facial landmarks with connected polygons and gradients.
+    
+#     Parameters:
+#         landmarks (np.array): Array of facial landmarks
+#         image_shape (tuple): Dimensions of the output image
+    
+#     Returns:
+#         np.array: Visualized image with facial landmarks
+#     """
+#     # Create a blank image with white background
+#     image = np.zeros((image_shape[0], image_shape[1], 3), dtype=np.uint8)
+#     image.fill(255)  # White background
+    
+#     # Reshape landmarks to (num_landmarks, 3)
+#     landmarks_reshaped = landmarks.reshape(-1, 3)
+    
+#     # Skip if no valid landmarks
+#     if np.all(landmarks_reshaped == 0):
+#         return image
+    
+#     # Filter out zero coordinates (which might indicate missing landmarks)
+#     valid_points = landmarks_reshaped[~np.all(landmarks_reshaped == 0, axis=1)]
+    
+#     if len(valid_points) == 0:
+#         return image
+        
+#     # Calculate the bounding box of valid landmarks
+#     min_x, min_y = np.min(valid_points[:, :2], axis=0)
+#     max_x, max_y = np.max(valid_points[:, :2], axis=0)
+    
+#     # Calculate current width and height of the landmarks
+#     width = max_x - min_x
+#     height = max_y - min_y
+    
+#     # Calculate aspect ratio of the face
+#     aspect_ratio = width / height if height > 0 else 1
+    
+#     # Set target size to occupy 70% of the image but maintain aspect ratio
+#     target_width = 0.7 * image_shape[1]
+#     target_height = target_width / aspect_ratio
+    
+#     # If the target height is too large, adjust both dimensions
+#     if target_height > 0.7 * image_shape[0]:
+#         target_height = 0.7 * image_shape[0]
+#         target_width = target_height * aspect_ratio
+    
+#     # Determine the scaling factor
+#     scale_x = target_width / width if width > 0 else 1
+#     scale_y = target_height / height if height > 0 else 1
+    
+#     # Use the same scale for both dimensions to maintain aspect ratio
+#     scale = min(scale_x, scale_y)
+    
+#     # Calculate the center of the landmarks
+#     center_x = (min_x + max_x) / 2
+#     center_y = (min_y + max_y) / 2
+    
+#     # Calculate the target center (center of image)
+#     target_center_x = image_shape[1] / 2
+#     target_center_y = image_shape[0] / 2
+    
+#     # Prepare lists to store scaled points
+#     scaled_points = []
+    
+#     # Scale and convert landmarks to image coordinates
+#     for i, (x, y, z) in enumerate(landmarks_reshaped):
+#         if x == 0 and y == 0 and z == 0:
+#             continue  # Skip zero landmarks
+            
+#         # Scale the point relative to the landmark center
+#         scaled_x = ((x - center_x) * scale) + target_center_x
+#         scaled_y = ((y - center_y) * scale) + target_center_y
+        
+#         # Convert to integer coordinates
+#         image_x = int(scaled_x)
+#         image_y = int(scaled_y)
+        
+#         # Make sure the point is within image boundaries
+#         if 0 <= image_x < image_shape[1] and 0 <= image_y < image_shape[0]:
+#             scaled_points.append((image_x, image_y))
+    
+#     # Define key face regions with landmark indices
+#     face_regions = [
+#         # Contour of the face
+#         list(range(0, 17)),  # Jaw line
+#         list(range(17, 22)),  # Left eyebrow
+#         list(range(22, 27)),  # Right eyebrow
+#         list(range(36, 42)),  # Left eye
+#         list(range(42, 48)),  # Right eye
+#         list(range(48, 60)),  # Outer lips
+#         list(range(60, 68))   # Inner lips
+#     ]
+    
+#     # Create gradient colors for different regions
+#     region_colors = [
+#         (173, 216, 230),  # Light blue for face contour
+#         (255, 192, 203),  # Pink for eyebrows
+#         (173, 255, 47),   # Green-yellow for eyes
+#         (255, 160, 122)   # Light salmon for lips
+#     ]
+    
+#     # Draw polygons for each region
+#     for i, region in enumerate(face_regions):
+#         # Ensure we have enough points in the region
+#         region_points = [scaled_points[idx] for idx in region if idx < len(scaled_points)]
+        
+#         if len(region_points) > 2:
+#             # Create a gradient overlay
+#             color = region_colors[i % len(region_colors)]
+            
+#             # Create a temporary image for this region
+#             region_mask = np.zeros_like(image)
+            
+#             # Draw filled polygon
+#             cv2.fillPoly(region_mask, [np.array(region_points)], color)
+            
+#             # Apply soft alpha blending
+#             alpha = 0.3  # Transparency factor
+#             cv2.addWeighted(region_mask, alpha, image, 1 - alpha, 0, image)
+    
+#     return image
 
 def compare_landmarks(true_landmarks, pred_landmarks, image_shape=(480, 640)):
     """Compare true and predicted landmarks on an image."""
