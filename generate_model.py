@@ -680,7 +680,7 @@ def combine_landmarks(original_landmarks, predicted_landmarks, landmark_points, 
     return combined_landmarks
 
 # Step 9: Main function to orchestrate the process
-def main(csv_path, video_path):
+def main(csv_path, video_path, model_name):
     """Main function to train and evaluate the model."""
     # Load and preprocess phonetic data
     print("Loading phonetic data...")
@@ -805,11 +805,11 @@ def main(csv_path, video_path):
         plt.close()
     
     # Save models
-    simple_model.save("temporary_usage_files/phoneme_to_landmark_simple.h5")
-    # seq_model.save("temporary_usage_files/phoneme_to_landmark_sequence.h5")
+    simple_model.save(f"models/{model_name}/{model_name}.h5")
+    # seq_model.save(f"models/{model_name}/{model_name}.h5")
     
     # Save the phoneme mapping for inference
-    with open("temporary_usage_files/phoneme_mapping.txt", "w") as f:
+    with open(f"models/{model_name}/phoneme_mapping.txt", "w") as f:
         for phoneme, idx in phoneme_to_idx.items():
             f.write(f"{phoneme},{idx}\n")
     
